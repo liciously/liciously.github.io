@@ -1,0 +1,10 @@
+function CopyPortGroupExclude2Params{
+#E.G exclude VM Network and Management Network
+Get-VirtualSwitch -VMHost [hostname/ip src] -Name vSwitch0 | Get-VirtualPortGroup | where {$_.Name -notmatch "VM Network" } | where {$_.Name -notmatch "Management Network"}
+ForEach ($pg in $portgroups) 
+{
+   $pgname =$pg.Name
+   $pgvlan = $pg.VlanId
+   Get-VirtualSwitch -VMhost [hostname/ip dst] -Name vSwitch0 | New-VirtualPortGroup -name $pgname -VLanId $pgvlan
+}
+}
